@@ -1,0 +1,26 @@
+#!/bin/bash
+
+# Check if the user provided a search string as an argument
+if [ -z "$1" ]; then
+    echo "Usage: $0 <search_string>"
+    exit 1
+fi
+
+# Define the directory containing the .java files
+DIRECTORY="app/src/main/java/dungeonmania"
+
+# Define the search string
+SEARCH_STRING="$1"
+
+# Check if the directory exists
+if [ -d "$DIRECTORY" ]; then
+    # Loop through all .java files in the directory and its subdirectories
+    find "$DIRECTORY" -name "*.java" | while read file; do
+        # Check if the file contains the search string
+        if grep -q "$SEARCH_STRING" "$file"; then
+            echo "Found in: $file"
+        fi
+    done
+else
+    echo "Directory $DIRECTORY does not exist."
+fi
